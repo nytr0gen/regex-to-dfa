@@ -25,7 +25,7 @@ DFA.prototype.check = function(s) {
         var accept = s[pos];
         if (accept in self._transitions[state]) {
             var newState = self._transitions[state][accept];
-            if (_dfs(newState, pos)) {
+            if (_dfs(newState, pos + 1)) {
                 return true;
             }
         }
