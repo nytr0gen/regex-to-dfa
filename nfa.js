@@ -1,15 +1,29 @@
-var NFA = function(initialState, finalState) {
+var NFA = function(charset, initialState, finalState) {
     this.initialState = initialState;
     this.finalState = finalState;
+    this.charset = charset || '';
     this._transitions = [];
     this._state = 0;
 };
 NFA.EPS = 'eps';
 
+NFA.fromRegexTree = function(tree, charset) {
+    var nfa = new this(charset);
+    var states = nfa._fromRegexTree(tree);
+    nfa.initialState = states.initialState;
+    nfa.finalState = states.finalState;
+
+    return nfa;
+};
+
 NFA.prototype.newState = function() {
     this._transitions.push({});
 
     return this._state++;
+};
+
+NFA.prototype.isFinalState = function(state) {
+    return this.finalState === state;
 };
 
 NFA.prototype.addTransition = function(from, to, accept) {
@@ -24,7 +38,7 @@ NFA.prototype.addTransition = function(from, to, accept) {
 NFA.prototype.check = function(s) {
     var self = this;
     var _dfs = function(state, pos) {
-        if (pos == s.length && state === self.finalState) {
+        if (pos == s.length && self.isFinalState(state)) {
             return true;
         }
 
@@ -47,7 +61,7 @@ NFA.prototype.check = function(s) {
     return _dfs(this.initialState, 0);
 };
 
-NFA.prototype.fromRegexTree = function(tree) {
+NFA.prototype._fromRegexTree = function(tree) {
     var initialState = this.newState();
     var finalState = this.newState();
     if (typeof(tree) !== 'object') {
@@ -55,7 +69,7 @@ NFA.prototype.fromRegexTree = function(tree) {
         this.addTransition(initialState, finalState, accept);
     } else if ('or' in tree) {
         for (var leaf of tree['or']) {
-            var nfa = this.fromRegexTree(leaf);
+            var nfa = this._fromRegexTree(leaf);
             this.addTransition(initialState, nfa.initialState);
             this.addTransition(nfa.finalState, finalState);
         }
@@ -63,7 +77,7 @@ NFA.prototype.fromRegexTree = function(tree) {
         var state = this.newState();
         this.addTransition(initialState, state);
         for (var leaf of tree['and']) {
-            var nfa = this.fromRegexTree(leaf);
+            var nfa = this._fromRegexTree(leaf);
             this.addTransition(state, nfa.initialState);
             state = nfa.finalState;
         }
@@ -75,14 +89,11 @@ NFA.prototype.fromRegexTree = function(tree) {
         this.addTransition(initialState, state1);
 
         var leaf = tree['star'];
-        var nfa2 = this.fromRegexTree(leaf);
+        var nfa2 = this._fromRegexTree(leaf);
         this.addTransition(state1, nfa2.initialState);
         this.addTransition(nfa2.finalState, state1);
         this.addTransition(nfa2.finalState, finalState);
     }
-
-    this.initialState = initialState;
-    this.finalState = finalState;
 
     return {
         'initialState': initialState,

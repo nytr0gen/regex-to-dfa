@@ -1,6 +1,5 @@
-module.exports = function(expr) {
+module.exports = function(expr, charset) {
     var pos = 0;
-    var CHARSET = 'abcdefghijklmnopqrstuvwxyz';
 
     var eval = function() {
         var terms = [term()];
@@ -19,7 +18,7 @@ module.exports = function(expr) {
     };
 
     var isFactor = function(s) {
-        return CHARSET.indexOf(s) !== -1 || s == '(';
+        return charset.indexOf(s) !== -1 || s == '(';
     }
 
     var term = function() {
