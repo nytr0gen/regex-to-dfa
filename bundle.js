@@ -1,4 +1,4 @@
-(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 var numCmp = function(x, y) {
     return x - y;
 };
@@ -173,17 +173,6 @@ DFA.prototype._fromNFA = function(nfa) {
 module.exports = DFA;
 
 },{}],2:[function(require,module,exports){
-var regexParser = require('./regex-parser');
-var NFA = require('./nfa');
-var DFA = require('./dfa');
-
-module.exports = {
-    regexParser: regexParser,
-    NFA: NFA,
-    DFA: DFA,
-};
-
-},{"./dfa":1,"./nfa":3,"./regex-parser":4}],3:[function(require,module,exports){
 var NFA = function(charset, initialState, finalState) {
     this.initialState = initialState;
     this.finalState = finalState;
@@ -289,7 +278,7 @@ NFA.prototype._fromRegexTree = function(tree) {
 
 module.exports = NFA;
 
-},{}],4:[function(require,module,exports){
+},{}],3:[function(require,module,exports){
 module.exports = function(expr, charset) {
     var pos = 0;
 
@@ -359,4 +348,15 @@ if (require.main === module) {
     console.log(JSON.stringify(module.exports(expr)));
 }
 
-},{}]},{},[2]);
+},{}],"regex-to-dfa":[function(require,module,exports){
+var regexParser = require('./regex-parser');
+var NFA = require('./nfa');
+var DFA = require('./dfa');
+
+module.exports = {
+    regexParser: regexParser,
+    NFA: NFA,
+    DFA: DFA,
+};
+
+},{"./dfa":1,"./nfa":2,"./regex-parser":3}]},{},[]);
